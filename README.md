@@ -1,4 +1,4 @@
-BubbleQuiz Game<br>
+<h1>BubbleQuiz Game<br></h1>
 
 
 <b>Used technologies:</b><br>
