@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.hobbajt.bubblequiz.levels.view.customview.LevelTileLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rlItem"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="12dp"
+    android:animateLayoutChanges="true"
+    android:clipChildren="false">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false">
+
+        <com.github.lzyzsd.circleprogress.CircleProgress
+            android:id="@+id/cpSet"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:clipChildren="false"
+            android:gravity="center"
+            app:circle_finished_color="@color/colorPrimary"
+            app:circle_text_size="0dp"
+            app:circle_unfinished_color="@color/blue_grey" />
+
+        <ImageView
+            android:id="@+id/ivComplete"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:src="@drawable/ic_win" />
+
+    </FrameLayout>
+
+
+</com.hobbajt.bubblequiz.levels.view.customview.LevelTileLayout>

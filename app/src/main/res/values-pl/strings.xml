@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BubbleQuiz</string>
+    <string name="exit_message">Cofnij ponownie, aby wyjść.</string>
+    <string name="connection">Błąd pobierania</string>
+    <string name="internet">Pobieranie danych nie powiodło się. Sprawdź czy masz połączenie z internetem</string>
+    <string name="try_again">Spróbuj ponownie</string>
+    <string name="exit">Wyjście</string>
+    <string name="ok">OK</string>
+    <string name="remaining">Pozostało</string>
+    <string name="remove_user_data">Usuń dane użytkownika</string>
+    <string name="remove_user_data_finished">Dane użytkownika zostały usunięte!</string>
+    <string name="new_level_pack_unlocked">Nowe poziomy zostały odblokowane!</string>
+    <string name="options">Opcje</string>
+    <string name="play">Graj</string>
+    <string name="points">punktów</string>
+</resources>

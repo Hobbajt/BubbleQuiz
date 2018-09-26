@@ -1,0 +1,27 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowDisablePreview">true</item>
+    </style>
+
+    <style name="NavigationButton">
+        <item name="android:animateLayoutChanges">true</item>
+        <item name="android:background">@drawable/not_passed_circle_level_item</item>
+        <item name="android:clipChildren">false</item>
+        <item name="android:clipToPadding">false</item>
+        <item name="android:visibility">visible</item>
+        <item name="android:padding">4dp</item>
+        <item name="android:layout_margin">16dp</item>
+    </style>
+
+    <style name="EditText">
+        <item name="colorControlNormal">#757575</item>
+        <!-- colorControlActivated & colorControlHighlight use the colorAccent color by default -->
+    </style>
+
+</resources>

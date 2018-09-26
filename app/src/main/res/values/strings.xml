@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">BubbleQuiz</string>
+    <string name="exit_message">Back again to exit.</string>
+    <string name="connection">Download error</string>
+    <string name="internet">Downloading data failed. Make sure you have an Internet connection</string>
+    <string name="try_again">Try again</string>
+    <string name="exit">Exit</string>
+    <string name="ok">OK</string>
+    <string name="remaining">Remaining</string>
+    <string name="remove_user_data">Remove user data</string>
+    <string name="remove_user_data_finished">User data has been removed!</string>
+    <string name="new_level_pack_unlocked">New levels pack has been unlocked!</string>
+    <string name="options">Options</string>
+    <string name="play">Play</string>
+    <string name="points">points</string>
+</resources>
