@@ -1,7 +1,7 @@
 package com.hobbajt.bubblequiz.menu.view
 
 
-interface MenuContractor
+interface MenuContract
 {
     interface View
     {

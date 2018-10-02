@@ -25,9 +25,9 @@ import com.hobbajt.bubblequiz.photo.model.BubblesSet
 import com.hobbajt.bubblequiz.photo.di.PhotoModule
 import com.hobbajt.bubblequiz.photo.model.dto.LevelState
 import com.hobbajt.bubblequiz.utilities.AnimationUtilities
-import com.hobbajt.bubblequiz.utilities.BitmapUtilities
 import com.hobbajt.bubblequiz.utilities.Utilities
 import com.hobbajt.bubblequiz.photo.view.customview.singleinputview.InputViewContainer
+import com.hobbajt.bubblequiz.utilities.toByteArray
 import com.nostra13.universalimageloader.core.DisplayImageOptions
 import com.nostra13.universalimageloader.core.ImageLoader
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration
@@ -37,7 +37,7 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import kotlinx.android.synthetic.main.fragment_photo.*
 import javax.inject.Inject
 
-class PhotoFragment: BaseMVPFragment<PhotoPresenter>(), PhotoContractor.View
+class PhotoFragment: BaseMVPFragment<PhotoPresenter>(), PhotoContract.View
 {
     @Inject
     lateinit var presenter: PhotoPresenter
@@ -218,7 +218,7 @@ class PhotoFragment: BaseMVPFragment<PhotoPresenter>(), PhotoContractor.View
             constraintSet.clone(clContent)
             it.setZOrderOnTop(true)
             it.holder.setFormat(PixelFormat.TRANSLUCENT)
-            it.bind(drawItems, surfaceSize, View.OnTouchListener { _, event ->
+            it.bind(drawItems.bubbles, surfaceSize, View.OnTouchListener { _, event ->
                 presenter.onBubbleTouch(event.x, event.y, event.action)
             })
             it.setView(this)
@@ -330,7 +330,7 @@ class PhotoFragment: BaseMVPFragment<PhotoPresenter>(), PhotoContractor.View
             override fun onLoadingComplete(imageUri: String, view: View?, loadedImage: Bitmap?)
             {
                 loadedImage?.let {
-                    listener.onSuccess(BitmapUtilities.convertBitmapToByteArray(loadedImage))
+                    listener.onSuccess(loadedImage.toByteArray())
                 }
             }
 

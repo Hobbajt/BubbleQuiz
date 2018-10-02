@@ -3,7 +3,7 @@ package com.hobbajt.bubblequiz.photo.view
 import com.hobbajt.bubblequiz.levelpacks.model.dto.LevelsPack
 import com.hobbajt.bubblequiz.photo.model.BubblesSet
 
-interface PhotoContractor
+interface PhotoContract
 {
     interface View
     {

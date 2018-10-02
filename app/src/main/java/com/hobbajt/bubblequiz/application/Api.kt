@@ -13,5 +13,5 @@ interface Api
     fun getSets(): Observable<List<LevelsPack>>
 
     @GET("getPhoto.php?")
-    fun getPhoto(@Query("setID") setID: Int, @Query("levelID") levelID: Int, @Query("language") language: String, @Query("size") screenWidth: Int): Single<Level>
+    fun getPhoto(@Query("setId") setId: Int, @Query("levelId") levelId: Int, @Query("language") language: String, @Query("size") screenWidth: Int): Single<Level>
 }

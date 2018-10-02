@@ -1,7 +1,7 @@
 package com.hobbajt.bubblequiz.options.di
 
 import com.hobbajt.bubblequiz.options.view.OptionsPresenter
-import com.hobbajt.bubblequiz.sharedprefs.SharedPreferencesEditor
+import com.hobbajt.bubblequiz.sharedprefs.LocalDataEditor
 import dagger.Module
 import dagger.Provides
 
@@ -9,5 +9,5 @@ import dagger.Provides
 class OptionsModule
 {
     @Provides
-    fun providesOptionsPresenter(sharedPreferencesEditor: SharedPreferencesEditor): OptionsPresenter = OptionsPresenter(sharedPreferencesEditor)
+    fun providesOptionsPresenter(localDataEditor: LocalDataEditor): OptionsPresenter = OptionsPresenter(localDataEditor)
 }

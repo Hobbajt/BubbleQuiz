@@ -15,7 +15,7 @@ import java.util.concurrent.CopyOnWriteArraySet
 
 class PhotoSurfaceView : SurfaceView, SurfaceHolder.Callback, Runnable
 {
-    private var view: PhotoContractor.View? = null
+    private var view: PhotoContract.View? = null
 
     private var surfaceSize = 0
     private val paint = Paint()
@@ -47,7 +47,7 @@ class PhotoSurfaceView : SurfaceView, SurfaceHolder.Callback, Runnable
         super.onMeasure(widthMeasureSpec, widthMeasureSpec)
     }
 
-    fun setView(view: PhotoContractor.View)
+    fun setView(view: PhotoContract.View)
     {
         this.view = view
     }

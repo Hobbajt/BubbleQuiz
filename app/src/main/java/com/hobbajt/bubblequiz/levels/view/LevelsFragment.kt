@@ -15,7 +15,7 @@ import com.hobbajt.bubblequiz.photo.view.PhotoFragment
 import kotlinx.android.synthetic.main.fragment_level.*
 import javax.inject.Inject
 
-class LevelsFragment: BaseMVPFragment<LevelsPresenter>(), LevelsContractor.View
+class LevelsFragment: BaseMVPFragment<LevelsPresenter>(), LevelsContract.View
 {
     @Inject
     lateinit var presenter: LevelsPresenter

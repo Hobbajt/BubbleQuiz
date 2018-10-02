@@ -1,7 +1,7 @@
 package com.hobbajt.bubblequiz.levels.di
 
 import com.hobbajt.bubblequiz.levels.view.LevelsPresenter
-import com.hobbajt.bubblequiz.sharedprefs.SharedPreferencesEditor
+import com.hobbajt.bubblequiz.sharedprefs.LocalDataEditor
 import dagger.Module
 import dagger.Provides
 
@@ -9,6 +9,6 @@ import dagger.Provides
 class LevelsModule
 {
     @Provides
-    fun providesLevelsPresenter(sharedPreferencesEditor: SharedPreferencesEditor):
-            LevelsPresenter = LevelsPresenter(sharedPreferencesEditor)
+    fun providesLevelsPresenter(localDataEditor: LocalDataEditor):
+            LevelsPresenter = LevelsPresenter(localDataEditor)
 }

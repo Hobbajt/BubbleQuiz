@@ -1,10 +1,10 @@
 package com.hobbajt.bubblequiz.options.view
 
 import com.hobbajt.bubblequiz.mvp.BasePresenter
-import com.hobbajt.bubblequiz.sharedprefs.SharedPreferencesEditor
+import com.hobbajt.bubblequiz.sharedprefs.LocalDataEditor
 import javax.inject.Inject
 
-class OptionsPresenter @Inject constructor(private val sharedPreferencesEditor: SharedPreferencesEditor) : BasePresenter<OptionsContractor.View>()
+class OptionsPresenter @Inject constructor(private val localDataEditor: LocalDataEditor) : BasePresenter<OptionsContract.View>()
 {
     fun onViewCreated()
     {
@@ -13,7 +13,7 @@ class OptionsPresenter @Inject constructor(private val sharedPreferencesEditor: 
 
     fun onRemoveDataClicked()
     {
-        sharedPreferencesEditor.clear()
+        localDataEditor.clear()
         view?.displayUserDataRemoved()
     }
 }

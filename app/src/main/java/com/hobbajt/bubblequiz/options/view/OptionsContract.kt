@@ -1,6 +1,6 @@
 package com.hobbajt.bubblequiz.options.view
 
-interface OptionsContractor
+interface OptionsContract
 {
     interface View
     {

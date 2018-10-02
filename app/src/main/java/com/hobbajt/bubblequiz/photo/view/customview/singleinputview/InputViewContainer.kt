@@ -5,10 +5,10 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import com.hobbajt.bubblequiz.R
-import org.apache.commons.lang3.StringUtils
 import java.util.*
 
-class InputViewContainer : LinearLayout, InputViewLine.OnLineChangedListener
+class InputViewContainer @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0):
+        LinearLayout(context, attrs, defStyleAttr), InputViewLine.OnLineChangedListener
 {
     private var listener: OnCompleteListener? = null
 
@@ -21,15 +21,9 @@ class InputViewContainer : LinearLayout, InputViewLine.OnLineChangedListener
         fun onComplete(answer: String)
     }
 
-    constructor(context: Context) : super(context)
-
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
-
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
-
     fun setAnswerPattern(answer: String)
     {
-        if (StringUtils.isNotBlank(answer))
+        if (answer.isNotBlank())
         {
             answer.trim()
                     .split(" ")

@@ -18,7 +18,11 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            buildConfigField "String", "SERVER_URL", '"http://hobbajt.pl/BubbleQuiz/"'
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            buildConfigField "String", "SERVER_URL", '"http://hobbajt.pl/BubbleQuiz/"'
         }
     }
     compileOptions {

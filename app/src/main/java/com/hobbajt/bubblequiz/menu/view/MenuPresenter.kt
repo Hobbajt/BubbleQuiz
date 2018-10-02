@@ -3,7 +3,7 @@ package com.hobbajt.bubblequiz.menu.view
 import com.hobbajt.bubblequiz.mvp.BasePresenter
 import javax.inject.Inject
 
-class MenuPresenter @Inject constructor(): BasePresenter<MenuContractor.View>()
+class MenuPresenter @Inject constructor(): BasePresenter<MenuContract.View>()
 {
     fun onViewCreated()
     {

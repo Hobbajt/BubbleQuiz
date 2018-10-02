@@ -1,24 +1,24 @@
 package com.hobbajt.bubblequiz.photo.model
 
-class AnswerChecker
+import java.text.Normalizer
+import java.util.regex.Pattern
+
+
+object AnswerChecker
 {
-    companion object
+    fun isAnswerCorrect(userAnswer: String, correctAnswer: String): Boolean
     {
-        private const val SPECIAL_CHARACTERS = "żźąćęłóśń"
-        private const val NORMAL_CHARACTERS = "zzacelosn"
+        return formatAnswer(correctAnswer).toLowerCase() == formatAnswer(userAnswer).toLowerCase()
+    }
 
-        fun isAnswerCorrect(userAnswer: String, correctAnswer: String): Boolean
-        {
-            return formatAnswer(correctAnswer).equals(formatAnswer(userAnswer), true)
-        }
+    private fun formatAnswer(answer: String): String
+    {
+        var formattedAnswer = answer
+        formattedAnswer = formattedAnswer.replace(" ", "").toLowerCase()
 
-        private fun formatAnswer(answer: String): String
-        {
-            var formattedAnswer = answer
-            formattedAnswer = formattedAnswer.replace(" ", "").toLowerCase()
-            for (i in 0 until SPECIAL_CHARACTERS.length)
-                formattedAnswer = formattedAnswer.replace(SPECIAL_CHARACTERS[i], NORMAL_CHARACTERS[i])
-            return formattedAnswer
-        }
+        val output = Normalizer.normalize(formattedAnswer, Normalizer.Form.NFD)
+        val pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+")
+
+        return pattern.matcher(output).replaceAll("")
     }
 }

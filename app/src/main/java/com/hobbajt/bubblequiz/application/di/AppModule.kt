@@ -5,13 +5,12 @@ import android.content.SharedPreferences
 import android.graphics.Point
 import android.view.WindowManager
 import com.google.gson.Gson
+import com.hobbajt.bubblequiz.BuildConfig
 import com.hobbajt.bubblequiz.application.App
 import com.hobbajt.bubblequiz.application.Api
-import com.hobbajt.bubblequiz.sharedprefs.SharedPreferencesEditor
+import com.hobbajt.bubblequiz.sharedprefs.LocalDataEditor
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import com.nostra13.universalimageloader.core.DefaultConfigurationFactory
 import com.nostra13.universalimageloader.core.DisplayImageOptions
-import com.nostra13.universalimageloader.core.ImageLoader
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration
 import dagger.Module
 import dagger.Provides
@@ -51,13 +50,8 @@ class AppModule(private val app: App)
 
     @Singleton
     @Provides
-    @Named("BASE_URL")
-    fun providesBaseUrl() = "http://hobbajt.pl/BubbleQuiz/"
-
-    @Singleton
-    @Provides
-    fun providesRetrofit(@Named("BASE_URL") baseUrl: String): Retrofit = Retrofit.Builder()
-            .baseUrl(baseUrl)
+    fun providesRetrofit(): Retrofit = Retrofit.Builder()
+            .baseUrl(BuildConfig.SERVER_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
@@ -76,6 +70,6 @@ class AppModule(private val app: App)
 
     @Singleton
     @Provides
-    fun providesSharedPreferencesEditor(sharedPreferences: SharedPreferences, gson: Gson): SharedPreferencesEditor = SharedPreferencesEditor(sharedPreferences, gson)
+    fun providesLocalDataEditor(sharedPreferences: SharedPreferences, gson: Gson): LocalDataEditor = LocalDataEditor(sharedPreferences, gson)
 
 }

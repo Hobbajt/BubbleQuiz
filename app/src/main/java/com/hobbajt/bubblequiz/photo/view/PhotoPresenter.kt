@@ -7,7 +7,7 @@ import com.hobbajt.bubblequiz.photo.model.BubblesSet
 import com.hobbajt.bubblequiz.photo.model.*
 import com.hobbajt.bubblequiz.photo.model.dto.LevelState
 import com.hobbajt.bubblequiz.photo.model.dto.Position
-import com.hobbajt.bubblequiz.sharedprefs.SharedPreferencesEditor
+import com.hobbajt.bubblequiz.sharedprefs.LocalDataEditor
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -17,11 +17,11 @@ import java.util.*
 import javax.inject.Inject
 
 
-class PhotoPresenter @Inject constructor(private val sharedPreferencesEditor: SharedPreferencesEditor,
+class PhotoPresenter @Inject constructor(private val localDataEditor: LocalDataEditor,
                                          private val photoApiLoader: PhotoApiLoader,
                                          private val language: String,
                                          private val screenSize: Int) :
-        BasePresenter<PhotoContractor.View>()
+        BasePresenter<PhotoContract.View>()
 {
     companion object
     {
@@ -137,10 +137,10 @@ class PhotoPresenter @Inject constructor(private val sharedPreferencesEditor: Sh
     {
         view?.createListeners()
         view?.hideLoader()
-        view?.displayPointsCount(sharedPreferencesEditor.readPointsCount())
+        view?.displayPointsCount(localDataEditor.readPointsCount())
         view?.displayAnswerFieldEmpty(level.answer)
 
-        if (sharedPreferencesEditor.isLevelPassed(level))
+        if (localDataEditor.isLevelPassed(level))
         {
             displayPassedUI(level.photoUrl)
         } else
@@ -163,17 +163,17 @@ class PhotoPresenter @Inject constructor(private val sharedPreferencesEditor: Sh
 
     private fun savePassedLevel()
     {
-        sharedPreferencesEditor.writePassedLevel(level)
+        localDataEditor.writePassedLevel(level)
     }
 
     private fun openNextLevel()
     {
-        view?.openLevel(levelsPack, getNextUndoneLevelId(levelsPack, level.levelID))
+        view?.openLevel(levelsPack, getNextUndoneLevelId(levelsPack, level.id))
     }
 
     private fun getNextUndoneLevelId(levelsPack: LevelsPack, currentLevelId: Int): Int
     {
-        val passedLevelsInPack = sharedPreferencesEditor.readPassedLevelsInPack(levelsPack.id)
+        val passedLevelsInPack = localDataEditor.readPassedLevelsInPack(levelsPack.id)
         val passedLevels: MutableSet<Int> = TreeSet(passedLevelsInPack)
 
         for (i in 0 until levelsPack.levelsCount)
@@ -199,7 +199,7 @@ class PhotoPresenter @Inject constructor(private val sharedPreferencesEditor: Sh
 
             //App.decrementRemainingLevelsCount()
             val points = NumberUtils.max(1, 3 - restartCount)
-            val totalPoints = sharedPreferencesEditor.writePointsCount(points)
+            val totalPoints = localDataEditor.writePointsCount(points)
             view?.displayPointsCount(totalPoints)
             displayPassedUI(level.photoUrl)
         }
@@ -246,7 +246,7 @@ class PhotoPresenter @Inject constructor(private val sharedPreferencesEditor: Sh
 
     private fun onHintClicked(selectedHintType: HintType)
     {
-        if (selectedHintType != currentHintType && sharedPreferencesEditor.readPointsCount() > selectedHintType.requiredPoints)
+        if (selectedHintType != currentHintType && localDataEditor.readPointsCount() > selectedHintType.requiredPoints)
         {
             currentHintType = selectedHintType
 
@@ -286,7 +286,7 @@ class PhotoPresenter @Inject constructor(private val sharedPreferencesEditor: Sh
 
     private fun onSurfaceHint(bubblePosition: Position)
     {
-        if (sharedPreferencesEditor.readPointsCount() > 0)
+        if (localDataEditor.readPointsCount() > 0)
         {
             val thread = Thread {
 
@@ -304,7 +304,7 @@ class PhotoPresenter @Inject constructor(private val sharedPreferencesEditor: Sh
                 thread.join()
                 currentHintType = null
                 view?.disableAllHintsAnimations()
-                view?.displayPointsCount(sharedPreferencesEditor.readPointsCount())
+                view?.displayPointsCount(localDataEditor.readPointsCount())
             } catch (e: InterruptedException)
             {
                 e.printStackTrace()
@@ -338,7 +338,7 @@ class PhotoPresenter @Inject constructor(private val sharedPreferencesEditor: Sh
     {
         if (isUsed)
         {
-            val points = sharedPreferencesEditor.writePointsCount(-requiredPoints)
+            val points = localDataEditor.writePointsCount(-requiredPoints)
             view?.displayPointsCount(points)
         }
     }

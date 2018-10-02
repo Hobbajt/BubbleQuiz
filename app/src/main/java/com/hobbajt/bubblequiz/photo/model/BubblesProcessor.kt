@@ -3,8 +3,9 @@ package com.hobbajt.bubblequiz.photo.model
 import android.graphics.*
 import android.util.Log
 import com.hobbajt.bubblequiz.photo.model.dto.*
-import com.hobbajt.bubblequiz.utilities.BitmapUtilities
 import com.hobbajt.bubblequiz.utilities.PixelsUtilities
+import com.hobbajt.bubblequiz.utilities.toBitmap
+import com.hobbajt.bubblequiz.utilities.toIntArray
 import org.apache.commons.lang3.ArrayUtils
 import java.util.*
 
@@ -22,7 +23,7 @@ class BubblesProcessor(imageBytes: ByteArray, screenWidth: Int)
 
     private val bigBubblesColors: Array<IntArray>
 
-    private val originalBitmap: Bitmap = BitmapUtilities.convertByteArrayToBitmap(imageBytes)
+    private val originalBitmap: Bitmap = imageBytes.toBitmap()
 
     private var sizeMap = Array(64) { IntArray(64) }
     private var bubblesSet = BubblesSet()
@@ -31,16 +32,16 @@ class BubblesProcessor(imageBytes: ByteArray, screenWidth: Int)
     {
         initSizeMap()
         val scaledBitmap = Bitmap.createScaledBitmap(originalBitmap, MAX_CELLS_SIDE_COUNT, MAX_CELLS_SIDE_COUNT, false)
-        val pixels = convertBitmapTo1DArray(scaledBitmap)
+        val pixels = scaledBitmap.toIntArray()
         smallBubblesColors = PixelsUtilities.parse1DArrayTo2D(pixels)
         bigBubblesColors = convertPixelsToBigBubblesColors(smallBubblesColors)
     }
 
     fun getBubblesSet(): BubblesSet
     {
-        if(bubblesSet.isEmpty())
+        if(bubblesSet.bubbles.isEmpty())
         {
-            bubblesSet.addAll(createBigBubbles())
+            bubblesSet.bubbles.addAll(createBigBubbles())
         }
         return bubblesSet
     }
@@ -62,14 +63,6 @@ class BubblesProcessor(imageBytes: ByteArray, screenWidth: Int)
                 sizeMap[x][y] = 8
             }
         }
-    }
-
-    private fun convertBitmapTo1DArray(bitmap: Bitmap): IntArray
-    {
-        val size = bitmap.width
-        val pixels = IntArray(size * size)
-        bitmap.getPixels(pixels, 0, size, 0, 0, size, size)
-        return pixels
     }
 
     private fun convertPixelsToBigBubblesColors(pixels: Array<IntArray>): Array<IntArray>
@@ -142,7 +135,7 @@ class BubblesProcessor(imageBytes: ByteArray, screenWidth: Int)
      */
     private fun selectPartOfOriginalImage(startX: Int, startY: Int, size: Int): Array<IntArray>
     {
-        val pixels = PixelsUtilities.parse1DArrayTo2D(convertBitmapTo1DArray(originalBitmap))
+        val pixels = PixelsUtilities.parse1DArrayTo2D(originalBitmap.toIntArray())
         val position = Position((startX + 1) * smallBubbleSizePx, (startY + 1) * smallBubbleSizePx)
         return PixelsUtilities.selectPartOf2DArray(pixels, position, size * smallBubbleSizePx)
     }
@@ -150,7 +143,7 @@ class BubblesProcessor(imageBytes: ByteArray, screenWidth: Int)
     private fun createImageBubble(position: Position, pixels: Array<IntArray>, isChangeable: Boolean): Bubble
     {
         val bubbleBitmap: Bitmap = createBubbleColorBitmap(pixels)
-        val pixels1D = convertBitmapTo1DArray(bubbleBitmap)
+        val pixels1D = bubbleBitmap.toIntArray()
         val positionPx = Position(position.x * smallBubbleSizePx, position.y * smallBubbleSizePx)
         return ImageBubble(pixels1D, position, positionPx, isChangeable)
     }
@@ -196,14 +189,14 @@ class BubblesProcessor(imageBytes: ByteArray, screenWidth: Int)
                     val partPixels = arrayOf(intArrayOf(atomicPixels[y - point.y][x - point.x]))
                     val bubble = createColorBubble(Position(x, y), partPixels, true, smallBubbleSizePx)
                     Log.d("test", "${bubble.radiusPx}   ${bubble.positionPx.x}      ${bubble.positionPx.y}    ${bubble.color}")
-                    bubblesToAdd.add(bubble)
-                    bubblesToRemove.add(bubblesSet, position)
+                    bubblesToAdd.bubbles.add(bubble)
+                    bubblesToRemove.add(bubblesSet.bubbles, position)
                 }
             }
         }
 
-        bubblesSet.addAll(bubblesToAdd)
-        bubblesSet.removeAll(bubblesToRemove)
+        bubblesSet.bubbles.addAll(bubblesToAdd.bubbles)
+        bubblesSet.bubbles.removeAll(bubblesToRemove.bubbles)
         return isBombUsed
     }
 
@@ -218,13 +211,13 @@ class BubblesProcessor(imageBytes: ByteArray, screenWidth: Int)
             for (y in point.y until point.y + 24 step 8)
             {
                 val position = Position(x, y)
-                if (bubblesToRemove.add(bubblesSet, position))
+                if (bubblesToRemove.add(bubblesSet.bubbles, position))
                 {
                     isUsed = true
 
                     val pixels = selectPartOfOriginalImage(x, y, 8)
                     val bubble = createImageBubble(Position(x, y), pixels, false)
-                    bubblesToAdd.add(bubble)
+                    bubblesToAdd.bubbles.add(bubble)
                 }
             }
         }
@@ -233,13 +226,13 @@ class BubblesProcessor(imageBytes: ByteArray, screenWidth: Int)
         {
             for (y in point.y until point.y + 24)
             {
-                bubblesToRemove.add(bubblesSet, Position(x, y))
+                bubblesToRemove.add(bubblesSet.bubbles, Position(x, y))
                 sizeMap[x][y] = 1
             }
         }
 
-        bubblesSet.addAll(bubblesToAdd)
-        bubblesSet.removeAll(bubblesToRemove)
+        bubblesSet.bubbles.addAll(bubblesToAdd.bubbles)
+        bubblesSet.bubbles.removeAll(bubblesToRemove.bubbles)
 
         return isUsed
     }
@@ -269,7 +262,7 @@ class BubblesProcessor(imageBytes: ByteArray, screenWidth: Int)
                     val partPixels = PixelsUtilities.selectPartOf2DArray(colorsOfSmallestBubbles, smallerBubblePoint, smallerBubbleSize)
                     val partSizePx = smallerBubbleSize * smallBubbleSizePx
                     val position = Position(bigBubbleStartPosition.x + x * smallerBubbleSize, bigBubbleStartPosition.y + y * smallerBubbleSize)
-                    bubblesSet.add(createColorBubble(position, partPixels, true, partSizePx))
+                    bubblesSet.bubbles.add(createColorBubble(position, partPixels, true, partSizePx))
                 }
             }
 

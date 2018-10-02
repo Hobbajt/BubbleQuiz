@@ -4,11 +4,9 @@ import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.hobbajt.bubblequiz.levels.model.dto.Level
-import org.apache.commons.lang3.ObjectUtils
-import java.util.*
 import javax.inject.Inject
 
-class SharedPreferencesEditor @Inject constructor(private val sharedPreferences: SharedPreferences, private val gson: Gson)
+class LocalDataEditor @Inject constructor(private val sharedPreferences: SharedPreferences, private val gson: Gson)
 {
     companion object
     {
@@ -24,8 +22,8 @@ class SharedPreferencesEditor @Inject constructor(private val sharedPreferences:
 
     fun isLevelPassed(level: Level): Boolean
     {
-        val passedLevels = readPassedLevelsInPack(level.setID)
-        return passedLevels.contains(level.levelID)
+        val passedLevels = readPassedLevelsInPack(level.setId)
+        return passedLevels.contains(level.id)
     }
 
     fun readPassedLevelsInPack(setId: Int): Set<Int>
@@ -35,18 +33,18 @@ class SharedPreferencesEditor @Inject constructor(private val sharedPreferences:
         val type = object : TypeToken<Set<Int>>() {}.type
         val passedLevels = gson.fromJson<Set<Int>>(passedLevelsJson, type)
 
-        return ObjectUtils.defaultIfNull<Set<Int>>(passedLevels, HashSet())
+        return passedLevels ?: emptySet()
     }
 
     fun writePassedLevel(level: Level)
     {
-        val levelsPackId = level.setID
+        val levelsPackId = level.setId
         val passedLevels: MutableSet<Int> = readPassedLevelsInPack(levelsPackId).toMutableSet()
 
-        if (!passedLevels.contains(level.levelID))
+        if (!passedLevels.contains(level.id))
             writePassedLevelsCountIncrement()
 
-        passedLevels.add(level.levelID)
+        passedLevels.add(level.id)
         sharedPreferences.edit().putString(PASSED_LEVELS + levelsPackId, gson.toJson(passedLevels)).apply()
     }
 

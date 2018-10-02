@@ -5,31 +5,33 @@ import com.hobbajt.bubblequiz.photo.model.dto.Position
 import java.io.Serializable
 import java.util.concurrent.CopyOnWriteArraySet
 
-class BubblesSet : CopyOnWriteArraySet<Bubble>(), Serializable
+class BubblesSet : Serializable
 {
+    val bubbles = CopyOnWriteArraySet<Bubble>()
+
     fun remove(position: Position)
     {
         val bubble = get(position)
         if(bubble != null && bubble.isChangeable)
         {
-            remove(bubble)
+            bubbles.remove(bubble)
         }
     }
 
     fun isChangeable(position: Position): Boolean = get(position)?.isChangeable ?: true
 
-    fun add(items: CopyOnWriteArraySet<Bubble>, positionPx: Position): Boolean
+    fun add(items: Collection<Bubble>, positionPx: Position): Boolean
     {
         for (drawItem in items)
         {
-            if (drawItem.isChangeable && drawItem.position.x == positionPx.x && drawItem.position.y == positionPx.y)
+            if (drawItem.isChangeable && drawItem.position == positionPx)
             {
-                add(drawItem)
+                bubbles.add(drawItem)
                 return true
             }
         }
         return false
     }
 
-    fun get(position: Position): Bubble? = firstOrNull { it.position.x == position.x && it.position.y == position.y }
+    fun get(position: Position): Bubble? = bubbles.firstOrNull { it.position == position}
 }

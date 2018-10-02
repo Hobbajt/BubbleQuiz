@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.fragment_level.*
 import java.io.Serializable
 import javax.inject.Inject
 
-class LevelPacksFragment : BaseMVPFragment<LevelPacksPresenter>(), LevelPacksContractor.View
+class LevelPacksFragment : BaseMVPFragment<LevelPacksPresenter>(), LevelPacksContract.View
 {
     @Inject
     lateinit var presenter: LevelPacksPresenter

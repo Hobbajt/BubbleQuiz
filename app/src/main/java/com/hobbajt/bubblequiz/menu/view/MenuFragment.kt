@@ -17,7 +17,7 @@ import com.hobbajt.bubblequiz.utilities.AnimationUtilities
 import kotlinx.android.synthetic.main.fragment_menu.*
 import javax.inject.Inject
 
-class MenuFragment: BaseMVPFragment<MenuPresenter>(), MenuContractor.View
+class MenuFragment: BaseMVPFragment<MenuPresenter>(), MenuContract.View
 {
     @Inject
     lateinit var presenter: MenuPresenter
@@ -51,8 +51,8 @@ class MenuFragment: BaseMVPFragment<MenuPresenter>(), MenuContractor.View
         (ivPlay as ImageView).setImageResource(R.drawable.ic_play)
         (ivOptions as ImageView).setImageResource(R.drawable.ic_options)
 
-        llPlay.setOnClickListener{ presenter.onPlayClicked()}
-        llOptions.setOnClickListener{ presenter.onOptionsClicked()}
+        playContainer.setOnClickListener{ presenter.onPlayClicked()}
+        optionsContainer.setOnClickListener{ presenter.onOptionsClicked()}
     }
 
     override fun onViewCreated(view : View, savedInstanceState : Bundle?)
@@ -65,8 +65,8 @@ class MenuFragment: BaseMVPFragment<MenuPresenter>(), MenuContractor.View
     {
         super.onResume()
         val slideUp = AnimationUtils.loadAnimation(context, R.anim.item_slide_up)
-        llPlay.startAnimation(slideUp)
-        llOptions.startAnimation(slideUp)
+        playContainer.startAnimation(slideUp)
+        optionsContainer.startAnimation(slideUp)
     }
 
     override fun openOptions()

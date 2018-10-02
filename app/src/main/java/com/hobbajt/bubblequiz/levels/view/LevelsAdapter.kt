@@ -26,12 +26,15 @@ class LevelsAdapter(private val presenter : LevelsPresenter) : RecyclerView.Adap
 
         override fun bind(position: Int, isLevelPassed: Boolean, presenter: LevelsPresenter)
         {
-            tvNumber.text = "${position + 1}"
-            tvNumber.setBackgroundResource(getIconRes(isLevelPassed))
-            tvNumber.startAnimation(AnimationUtils.loadAnimation(tvNumber.context, R.anim.item_menu_show_animation))
-            tvNumber.setOnClickListener {
-                presenter.onLevelClicked(position, this)
+            tvNumber.apply {
+                text = "${position + 1}"
+                setBackgroundResource(getIconRes(isLevelPassed))
+                startAnimation(AnimationUtils.loadAnimation(context, R.anim.item_menu_show_animation))
+                setOnClickListener {
+                    presenter.onLevelClicked(position, this@LevelItemHolder)
+                }
             }
+
         }
 
         override fun displayOpenAnimation()

@@ -15,7 +15,7 @@ import com.hobbajt.bubblequiz.mvp.BaseMVPFragment
 import kotlinx.android.synthetic.main.fragment_options.*
 import javax.inject.Inject
 
-class OptionsFragment : BaseMVPFragment<OptionsPresenter>(), OptionsContractor.View
+class OptionsFragment : BaseMVPFragment<OptionsPresenter>(), OptionsContract.View
 {
     @Inject
     lateinit var presenter: OptionsPresenter
@@ -54,13 +54,13 @@ class OptionsFragment : BaseMVPFragment<OptionsPresenter>(), OptionsContractor.V
     {
         super.onResume()
         val slideUp = AnimationUtils.loadAnimation(context, R.anim.item_slide_up)
-        llRemoveData.startAnimation(slideUp)
+        clRemoveData.startAnimation(slideUp)
     }
 
     override fun displayUI()
     {
         (ivRemoveData as ImageView).setImageResource(R.drawable.ic_delete)
-        llRemoveData.setOnClickListener { presenter.onRemoveDataClicked() }
+        clRemoveData.setOnClickListener { presenter.onRemoveDataClicked() }
     }
 
     override fun displayUserDataRemoved()

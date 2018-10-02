@@ -1,42 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipChildren="false"
-                android:orientation="vertical">
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/clRemoveData"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/glMenu"
+    <include
+        android:id="@+id/ivRemoveData"
+        layout="@layout/item_menu"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="16dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/textView"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:clipChildren="false"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:id="@+id/llRemoveData"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <include
-                android:id="@+id/ivRemoveData"
-                layout="@layout/item_menu"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_margin="16dp"
-                android:visibility="visible"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/remove_user_data"
-                android:textColor="@color/blue_grey"
-                android:textSize="24sp"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-</RelativeLayout>
+        android:gravity="center"
+        android:text="@string/remove_user_data"
+        android:textColor="@color/blue_grey"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivRemoveData"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/ivRemoveData"
+        app:layout_constraintTop_toTopOf="@+id/ivRemoveData" />
+</android.support.constraint.ConstraintLayout>

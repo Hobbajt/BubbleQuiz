@@ -10,7 +10,8 @@ import com.hobbajt.bubblequiz.R
 import org.apache.commons.lang3.StringUtils
 
 
-class InputViewLine : LinearLayout, InputViewSign.SignBoxChangeListener
+class InputViewLine @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0):
+        LinearLayout(context, attrs, defStyleAttr), InputViewSign.SignBoxChangeListener
 {
     private var signsCount: Int = 0
     private var etSigns: Array<InputViewSign> = emptyArray()
@@ -31,12 +32,6 @@ class InputViewLine : LinearLayout, InputViewSign.SignBoxChangeListener
         fun focusNextLine(lineId: Int)
         fun focusPreviousLine(lineId: Int)
     }
-
-    constructor(context: Context) : super(context)
-
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
-
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     private fun addSignBoxes()
     {
@@ -66,10 +61,10 @@ class InputViewLine : LinearLayout, InputViewSign.SignBoxChangeListener
         return true
     }
 
-    override fun moveToPreviousBox(currentID: Int)
+    override fun moveToPreviousBox(currentId: Int)
     {
-        if (currentID > 0)
-            moveToBox(currentID - 1)
+        if (currentId > 0)
+            moveToBox(currentId - 1)
         else
             onLineChangedListener?.focusPreviousLine(id)
     }
