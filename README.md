@@ -10,4 +10,6 @@
 <li>MySQL<br></li>
 <li>MVP<br></li>
 <li>Retrofit</li>
+<li>JUnit</li>
+<li>Mockito</li>
   </ul>
