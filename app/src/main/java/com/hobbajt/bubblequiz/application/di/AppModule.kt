@@ -6,8 +6,8 @@ import android.graphics.Point
 import android.view.WindowManager
 import com.google.gson.Gson
 import com.hobbajt.bubblequiz.BuildConfig
-import com.hobbajt.bubblequiz.application.App
 import com.hobbajt.bubblequiz.application.Api
+import com.hobbajt.bubblequiz.application.App
 import com.hobbajt.bubblequiz.sharedprefs.LocalDataEditor
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import com.nostra13.universalimageloader.core.DisplayImageOptions
@@ -20,13 +20,8 @@ import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
-class AppModule(private val app: App)
+class AppModule
 {
-    @Singleton
-    @Provides
-    fun providesApplication() = app
-
-
     @Provides
     @Named("SCREEN_SIZE")
     fun providesScreenWidth(app: App): Int

@@ -1,11 +1,11 @@
 package com.hobbajt.bubblequiz.mvp
 
 import android.content.Context
-import android.support.v4.app.Fragment
 import com.hobbajt.bubblequiz.activity.FragmentsManager
+import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-abstract class BaseMVPFragment<T : BasePresenter<*>>: Fragment()
+abstract class BaseMVPFragment<T : BasePresenter<*>>: DaggerFragment()
 {
     @Inject
     lateinit var fragmentsManager: FragmentsManager
@@ -13,15 +13,12 @@ abstract class BaseMVPFragment<T : BasePresenter<*>>: Fragment()
     override fun onAttach(context: Context?)
     {
         super.onAttach(context)
-        initDependencies()
         attachView()
     }
 
     abstract fun attachView()
 
     abstract fun providePresenter(): T
-
-    protected abstract fun initDependencies()
 
     override fun onDetach()
     {

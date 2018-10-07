@@ -18,20 +18,15 @@ class BubblesSet : Serializable
         }
     }
 
-    fun isChangeable(position: Position): Boolean = get(position)?.isChangeable ?: true
+    fun get(position: Position): Bubble? = bubbles.firstOrNull { it.position == position}
 
-    fun add(items: Collection<Bubble>, positionPx: Position): Boolean
+    fun getIfChangeable(position: Position): Bubble?
     {
-        for (drawItem in items)
-        {
-            if (drawItem.isChangeable && drawItem.position == positionPx)
-            {
-                bubbles.add(drawItem)
-                return true
-            }
-        }
-        return false
+        val bubble = get(position)
+        if(bubble?.isChangeable == true)
+            return bubble
+        return null
+
     }
 
-    fun get(position: Position): Bubble? = bubbles.firstOrNull { it.position == position}
 }

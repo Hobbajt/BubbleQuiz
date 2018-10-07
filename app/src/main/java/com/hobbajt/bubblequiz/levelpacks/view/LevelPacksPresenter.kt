@@ -1,6 +1,5 @@
 package com.hobbajt.bubblequiz.levelpacks.view
 
-import android.util.Log
 import com.hobbajt.bubblequiz.levelpacks.model.LevelPacksApiLoader
 import com.hobbajt.bubblequiz.levelpacks.model.dto.LevelsPack
 import com.hobbajt.bubblequiz.mvp.BasePresenter
@@ -19,6 +18,7 @@ class LevelPacksPresenter @Inject constructor(private val levelPacksApiLoader: L
 
     override fun detachView()
     {
+        super.detachView()
         compositeDisposable.clear()
     }
 
@@ -29,11 +29,10 @@ class LevelPacksPresenter @Inject constructor(private val levelPacksApiLoader: L
 
     fun onViewCreated(levelsPacks: List<LevelsPack>?)
     {
-        passedLevelsTotalCount = localDataEditor.readTotalPassedLevelsCount()
+        loadTotalPassedLevelsCount()
         if(levelsPacks != null)
         {
-            this.levelsPacks = levelsPacks
-            view?.displayData()
+            onLoadLevelPacksSuccess(levelsPacks)
         }
         else
         {
@@ -41,7 +40,12 @@ class LevelPacksPresenter @Inject constructor(private val levelPacksApiLoader: L
         }
     }
 
-    private fun loadLevelPacks()
+    fun loadTotalPassedLevelsCount()
+    {
+        passedLevelsTotalCount = localDataEditor.readTotalPassedLevelsCount()
+    }
+
+    fun loadLevelPacks()
     {
         compositeDisposable.add(levelPacksApiLoader.load()
                 .subscribeOn(Schedulers.io())
@@ -62,15 +66,18 @@ class LevelPacksPresenter @Inject constructor(private val levelPacksApiLoader: L
                 }
                 .toList()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { items ->
-                            levelsPacks = items
-                            view?.displayData()
-                        },
-                        { exception ->
-                            Log.e("error", exception.message)
-                            view?.displayDownloadErrorDialog()
-                        }))
+                .subscribe({ onLoadLevelPacksSuccess(it) }, { onLoadLevelPacksError()}))
+    }
+
+    fun onLoadLevelPacksError()
+    {
+        view?.displayDownloadErrorDialog()
+    }
+
+    fun onLoadLevelPacksSuccess(items: List<LevelsPack>)
+    {
+        levelsPacks = items
+        view?.displayData()
     }
 
     fun onCancelButtonClicked()

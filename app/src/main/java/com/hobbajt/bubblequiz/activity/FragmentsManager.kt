@@ -6,9 +6,8 @@ import com.hobbajt.bubblequiz.levels.view.LevelsFragment
 import com.hobbajt.bubblequiz.menu.view.MenuFragment
 import com.hobbajt.bubblequiz.mvp.BaseMVPFragment
 import com.hobbajt.bubblequiz.photo.view.PhotoFragment
-import javax.inject.Inject
 
-class FragmentsManager @Inject constructor(private val fragmentManager: FragmentManager)
+class FragmentsManager(private val fragmentManager: FragmentManager)
 {
     private val currentFragment: BaseMVPFragment<*>?
         get() = fragmentManager.findFragmentById(R.id.fragment) as BaseMVPFragment<*>?

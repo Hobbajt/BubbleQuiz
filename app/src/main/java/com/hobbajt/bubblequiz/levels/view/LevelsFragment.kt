@@ -6,10 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.hobbajt.bubblequiz.R
-import com.hobbajt.bubblequiz.activity.MainActivity
 import com.hobbajt.bubblequiz.levelpacks.model.dto.LevelsPack
-import com.hobbajt.bubblequiz.levels.di.LevelsComponent
-import com.hobbajt.bubblequiz.levels.di.LevelsModule
 import com.hobbajt.bubblequiz.mvp.BaseMVPFragment
 import com.hobbajt.bubblequiz.photo.view.PhotoFragment
 import kotlinx.android.synthetic.main.fragment_level.*
@@ -19,7 +16,6 @@ class LevelsFragment: BaseMVPFragment<LevelsPresenter>(), LevelsContract.View
 {
     @Inject
     lateinit var presenter: LevelsPresenter
-    private var levelsComponent: LevelsComponent? = null
 
     override fun attachView()
     {
@@ -27,15 +23,6 @@ class LevelsFragment: BaseMVPFragment<LevelsPresenter>(), LevelsContract.View
     }
 
     override fun providePresenter() = presenter
-
-    override fun initDependencies()
-    {
-        if (levelsComponent == null)
-        {
-            levelsComponent = (activity as MainActivity).activityComponent?.plusLevelsComponent(LevelsModule())
-            levelsComponent?.inject(this)
-        }
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {

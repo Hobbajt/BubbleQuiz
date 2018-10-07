@@ -14,6 +14,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -37,18 +38,23 @@ android {
     kapt {
         generateStubs = true
     }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // Tests
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    testImplementation 'org.mockito:mockito-android:2.22.0'
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC2"
+    testImplementation "org.robolectric:robolectric:3.8"
+    testImplementation "org.robolectric:shadows-supportv4:3.8"
 
     // RxJava
     implementation "io.reactivex.rxjava2:rxjava:2.2.1"
@@ -69,6 +75,9 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:2.16"
     kapt "com.google.dagger:dagger-android-processor:2.16"
 
+    // OkHttp
+    implementation "com.squareup.okhttp3:okhttp:3.10.0"
+    testImplementation "com.squareup.okhttp3:mockwebserver:3.10.0"
 
     // Support
     implementation 'com.android.support:appcompat-v7:27.1.1'
@@ -77,6 +86,8 @@ dependencies {
     implementation 'com.android.support:cardview-v7:27.1.1'
     implementation 'com.android.support:support-v13:27.1.1'
     implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 
     // UIL
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
@@ -98,4 +109,5 @@ dependencies {
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-reflect:1.2.70"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

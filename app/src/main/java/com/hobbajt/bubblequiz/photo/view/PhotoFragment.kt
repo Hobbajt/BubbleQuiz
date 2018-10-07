@@ -14,20 +14,17 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import com.hobbajt.bubblequiz.R
-import com.hobbajt.bubblequiz.activity.MainActivity
 import com.hobbajt.bubblequiz.dialogs.ConnectionErrorDialog
 import com.hobbajt.bubblequiz.dialogs.NewLevelPackUnlockedDialog
 import com.hobbajt.bubblequiz.dialogs.OnDialogClickListener
+import com.hobbajt.bubblequiz.extensions.toByteArray
 import com.hobbajt.bubblequiz.levelpacks.model.dto.LevelsPack
-import com.hobbajt.bubblequiz.photo.di.PhotoComponent
 import com.hobbajt.bubblequiz.mvp.BaseMVPFragment
 import com.hobbajt.bubblequiz.photo.model.BubblesSet
-import com.hobbajt.bubblequiz.photo.di.PhotoModule
 import com.hobbajt.bubblequiz.photo.model.dto.LevelState
+import com.hobbajt.bubblequiz.photo.view.customview.singleinputview.InputViewContainer
 import com.hobbajt.bubblequiz.utilities.AnimationUtilities
 import com.hobbajt.bubblequiz.utilities.Utilities
-import com.hobbajt.bubblequiz.photo.view.customview.singleinputview.InputViewContainer
-import com.hobbajt.bubblequiz.utilities.toByteArray
 import com.nostra13.universalimageloader.core.DisplayImageOptions
 import com.nostra13.universalimageloader.core.ImageLoader
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration
@@ -47,8 +44,6 @@ class PhotoFragment: BaseMVPFragment<PhotoPresenter>(), PhotoContract.View
 
     @Inject
     lateinit var displayImageOptions: DisplayImageOptions
-
-    private var photoComponent: PhotoComponent? = null
 
     private var svImage: PhotoSurfaceView? = null
 
@@ -76,15 +71,6 @@ class PhotoFragment: BaseMVPFragment<PhotoPresenter>(), PhotoContract.View
     }
 
     override fun providePresenter() = presenter
-
-    override fun initDependencies()
-    {
-        if(photoComponent == null)
-        {
-            photoComponent = (activity as MainActivity).activityComponent?.plusPhotoComponent(PhotoModule())
-            photoComponent?.inject(this)
-        }
-    }
 
     override fun onSaveInstanceState(outState: Bundle)
     {

@@ -7,10 +7,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import com.hobbajt.bubblequiz.R
-import com.hobbajt.bubblequiz.activity.MainActivity
 import com.hobbajt.bubblequiz.levelpacks.view.LevelPacksFragment
-import com.hobbajt.bubblequiz.menu.di.MenuComponent
-import com.hobbajt.bubblequiz.menu.di.MenuModule
 import com.hobbajt.bubblequiz.mvp.BaseMVPFragment
 import com.hobbajt.bubblequiz.options.view.OptionsFragment
 import com.hobbajt.bubblequiz.utilities.AnimationUtilities
@@ -22,23 +19,12 @@ class MenuFragment: BaseMVPFragment<MenuPresenter>(), MenuContract.View
     @Inject
     lateinit var presenter: MenuPresenter
 
-    private var menuComponent: MenuComponent? = null
-
     override fun attachView()
     {
         presenter.attachView(this)
     }
 
     override fun providePresenter() = presenter
-
-    override fun initDependencies()
-    {
-        if(menuComponent == null)
-        {
-            menuComponent = (activity as MainActivity).activityComponent?.plusMenuComponent(MenuModule())
-            menuComponent?.inject(this)
-        }
-    }
 
     override fun onCreateView(inflater : LayoutInflater, container : ViewGroup?, savedInstanceState : Bundle?) : View?
     {

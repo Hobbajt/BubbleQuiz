@@ -1,23 +1,26 @@
 package com.hobbajt.bubblequiz.activity
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import com.hobbajt.bubblequiz.R
-import com.hobbajt.bubblequiz.activity.di.ActivityComponent
-import com.hobbajt.bubblequiz.activity.di.ActivityModule
-import com.hobbajt.bubblequiz.application.App
+import dagger.android.AndroidInjection
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
 
-class MainActivity: AppCompatActivity()
+
+class MainActivity: AppCompatActivity(), HasSupportFragmentInjector
 {
+    @Inject
+    lateinit var fragmentDispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
+
     @Inject
     lateinit var fragmentsManager: FragmentsManager
 
-    var activityComponent: ActivityComponent? = null
-
     override fun onCreate(savedInstanceState: Bundle?)
     {
-        initDependencies()
+        AndroidInjection.inject(this)
 
         super.onCreate(savedInstanceState)
 
@@ -30,15 +33,6 @@ class MainActivity: AppCompatActivity()
         fragmentsManager.onResume()
     }
 
-    private fun initDependencies()
-    {
-        if(activityComponent == null)
-        {
-            activityComponent = (application as App).appComponent.plus(ActivityModule(this))
-        }
-        activityComponent?.inject(this)
-    }
-
     override fun onBackPressed()
     {
         if(!fragmentsManager.onBackPressed())
@@ -46,4 +40,6 @@ class MainActivity: AppCompatActivity()
             super.onBackPressed()
         }
     }
+
+    override fun supportFragmentInjector() = fragmentDispatchingAndroidInjector
 }

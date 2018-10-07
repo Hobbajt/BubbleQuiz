@@ -8,9 +8,6 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import com.hobbajt.bubblequiz.R
-import com.hobbajt.bubblequiz.activity.MainActivity
-import com.hobbajt.bubblequiz.options.di.OptionsComponent
-import com.hobbajt.bubblequiz.options.di.OptionsModule
 import com.hobbajt.bubblequiz.mvp.BaseMVPFragment
 import kotlinx.android.synthetic.main.fragment_options.*
 import javax.inject.Inject
@@ -19,7 +16,6 @@ class OptionsFragment : BaseMVPFragment<OptionsPresenter>(), OptionsContract.Vie
 {
     @Inject
     lateinit var presenter: OptionsPresenter
-    private var optionsComponent: OptionsComponent? = null
 
     override fun attachView()
     {
@@ -31,17 +27,6 @@ class OptionsFragment : BaseMVPFragment<OptionsPresenter>(), OptionsContract.Vie
     override fun onCreateView(inflater : LayoutInflater, container : ViewGroup?, savedInstanceState : Bundle?) : View?
     {
         return inflater.inflate(R.layout.fragment_options, container, false)
-    }
-
-    override fun initDependencies()
-    {
-        if(optionsComponent == null)
-        {
-            context?.let {
-                optionsComponent = (activity as MainActivity).activityComponent?.plusOptionsComponent(OptionsModule())
-                optionsComponent?.inject(this)
-            }
-        }
     }
 
     override fun onViewCreated(view : View, savedInstanceState : Bundle?)

@@ -1,11 +1,10 @@
 package com.hobbajt.bubblequiz.photo.model
 
 import android.graphics.*
-import android.util.Log
+import com.hobbajt.bubblequiz.extensions.toBitmap
+import com.hobbajt.bubblequiz.extensions.toIntArray
 import com.hobbajt.bubblequiz.photo.model.dto.*
 import com.hobbajt.bubblequiz.utilities.PixelsUtilities
-import com.hobbajt.bubblequiz.utilities.toBitmap
-import com.hobbajt.bubblequiz.utilities.toIntArray
 import org.apache.commons.lang3.ArrayUtils
 import java.util.*
 
@@ -182,15 +181,17 @@ class BubblesProcessor(imageBytes: ByteArray, screenWidth: Int)
             {
                 //val positionPx = Position(x * smallBubbleSizePx, y * smallBubbleSizePx)
                 val position = Position(x, y)
-                if (bubblesSet.isChangeable(position) && sizeMap[x][y] > 1)
+                val bblb = bubblesSet.get(position)
+                if (bblb == null || bblb?.isChangeable && sizeMap[x][y] > 1)
                 {
                     isBombUsed = true
                     sizeMap[x][y] = 1
                     val partPixels = arrayOf(intArrayOf(atomicPixels[y - point.y][x - point.x]))
                     val bubble = createColorBubble(Position(x, y), partPixels, true, smallBubbleSizePx)
-                    Log.d("test", "${bubble.radiusPx}   ${bubble.positionPx.x}      ${bubble.positionPx.y}    ${bubble.color}")
                     bubblesToAdd.bubbles.add(bubble)
-                    bubblesToRemove.add(bubblesSet.bubbles, position)
+
+                    bubblesSet.getIfChangeable(position)?.let { bubblesToRemove.bubbles.add(it) }
+
                 }
             }
         }
@@ -211,8 +212,10 @@ class BubblesProcessor(imageBytes: ByteArray, screenWidth: Int)
             for (y in point.y until point.y + 24 step 8)
             {
                 val position = Position(x, y)
-                if (bubblesToRemove.add(bubblesSet.bubbles, position))
+                val bubbleAtPosition = bubblesSet.getIfChangeable(position)
+                if (bubbleAtPosition != null)
                 {
+                    bubblesToRemove.bubbles.add(bubbleAtPosition)
                     isUsed = true
 
                     val pixels = selectPartOfOriginalImage(x, y, 8)
@@ -226,7 +229,8 @@ class BubblesProcessor(imageBytes: ByteArray, screenWidth: Int)
         {
             for (y in point.y until point.y + 24)
             {
-                bubblesToRemove.add(bubblesSet.bubbles, Position(x, y))
+                val bubbleAtPosition = bubblesSet.getIfChangeable(Position(x, y))
+                bubbleAtPosition?.let { bubblesToRemove.bubbles.add(it) }
                 sizeMap[x][y] = 1
             }
         }
@@ -276,6 +280,8 @@ class BubblesProcessor(imageBytes: ByteArray, screenWidth: Int)
         }
         return availableSplits
     }
+
+
 
     fun getSurfaceSize() = smallBubbleSizePx * IMAGE_SIDE
 

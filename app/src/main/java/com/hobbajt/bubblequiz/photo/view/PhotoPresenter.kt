@@ -3,7 +3,6 @@ package com.hobbajt.bubblequiz.photo.view
 import com.hobbajt.bubblequiz.levelpacks.model.dto.LevelsPack
 import com.hobbajt.bubblequiz.levels.model.dto.Level
 import com.hobbajt.bubblequiz.mvp.BasePresenter
-import com.hobbajt.bubblequiz.photo.model.BubblesSet
 import com.hobbajt.bubblequiz.photo.model.*
 import com.hobbajt.bubblequiz.photo.model.dto.LevelState
 import com.hobbajt.bubblequiz.photo.model.dto.Position

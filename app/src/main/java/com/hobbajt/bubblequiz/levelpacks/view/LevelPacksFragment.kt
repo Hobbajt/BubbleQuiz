@@ -6,11 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.hobbajt.bubblequiz.R
-import com.hobbajt.bubblequiz.activity.MainActivity
 import com.hobbajt.bubblequiz.dialogs.ConnectionErrorDialog
 import com.hobbajt.bubblequiz.dialogs.OnDialogClickListener
-import com.hobbajt.bubblequiz.levelpacks.di.LevelPacksComponent
-import com.hobbajt.bubblequiz.levelpacks.di.LevelPacksModule
 import com.hobbajt.bubblequiz.levelpacks.model.dto.LevelsPack
 import com.hobbajt.bubblequiz.levels.view.LevelsFragment
 import com.hobbajt.bubblequiz.mvp.BaseMVPFragment
@@ -23,24 +20,12 @@ class LevelPacksFragment : BaseMVPFragment<LevelPacksPresenter>(), LevelPacksCon
     @Inject
     lateinit var presenter: LevelPacksPresenter
 
-
-    private var levelPacksComponent: LevelPacksComponent? = null
-
     override fun attachView()
     {
         presenter.attachView(this)
     }
 
     override fun providePresenter() = presenter
-
-    override fun initDependencies()
-    {
-        if(levelPacksComponent == null)
-        {
-            levelPacksComponent = (activity as MainActivity).activityComponent?.plusLevelPacksComponent(LevelPacksModule())
-            levelPacksComponent?.inject(this)
-        }
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
@@ -97,7 +82,7 @@ class LevelPacksFragment : BaseMVPFragment<LevelPacksPresenter>(), LevelPacksCon
 
     companion object
     {
-        private const val LEVELS_PACKS_TAG = "levelsPacks"
+        const val LEVELS_PACKS_TAG = "levelsPacks"
         fun newInstance() = LevelPacksFragment()
     }
 }

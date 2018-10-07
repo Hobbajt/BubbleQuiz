@@ -1,4 +1,4 @@
-package com.hobbajt.bubblequiz.utilities
+package com.hobbajt.bubblequiz.extensions
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory

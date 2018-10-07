@@ -1,14 +1,13 @@
 package com.hobbajt.bubblequiz.activity.di
 
-import android.support.v4.app.FragmentActivity
-import com.hobbajt.bubblequiz.activity.FragmentsManager
+import com.hobbajt.bubblequiz.activity.MainActivity
+import com.hobbajt.bubblequiz.mvp.FragmentsModule
 import dagger.Module
-import dagger.Provides
+import dagger.android.ContributesAndroidInjector
 
 @Module
-class ActivityModule(private val fragmentActivity: FragmentActivity)
+abstract class ActivityModule
 {
-    @Provides
-    fun providesFragmentsManager(): FragmentsManager = FragmentsManager(fragmentActivity.supportFragmentManager)
-
+    @ContributesAndroidInjector(modules = [MainActivityModule::class, FragmentsModule::class])
+    abstract fun contributeMainActivity(): MainActivity
 }
